@@ -52,6 +52,8 @@ int main(int argc, char const *argv[])
     char opt;
 
     struct Graph *graph = (struct Graph *)malloc(sizeof(struct Graph));
+    graph->nodes = NULL;
+    graph->num_nodes = 0;
 
     if (filename)
     {
@@ -70,8 +72,9 @@ int main(int argc, char const *argv[])
     {
         do
         {
-            printf("\nGRAPH CONNECTIVITY\n");
-            printf("1 - Adicionar vértices\n");
+            printf("\nGRAPH CONNECTIVITY\n\n");
+            printGraph(graph);
+            printf("\n1 - Adicionar vértices\n");
             printf("2 - Remover vértices\n");
             printf("3 - Adicionar arestas\n");
             printf("4 - Remover arestas\n");
@@ -105,7 +108,7 @@ int main(int argc, char const *argv[])
                 printf("Fim da remoção de arestas.\n");
                 break;
             case '5':
-                /* iniciaBuscaGulosa(input_stream, graph); */
+                greedySearch(graph, 3);
                 break;
             case '0':
                 return 0;

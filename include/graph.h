@@ -11,7 +11,16 @@ struct Node
 struct Graph
 {
     struct Node *nodes;
+    int num_nodes;
 };
+
+/**
+ * @brief Prints the graph structure. 
+ * 
+ * @param graph 
+ * @param node_id 
+ */
+void printGraph(struct Graph *graph);
 
 /**
  * @brief Adds node.
@@ -40,5 +49,15 @@ int addEdge(struct Graph *graph, int onode_id, int dnode_id);
  * @return int
  */
 int removeEdge(struct Graph *graph, int onode_id, int dnode_id);
+
+
+/**
+ * @brief Faz uma busca gulosa no grafo a partir de um nó inicial. Retorna se o grafo é conexo ou não. Imprime o caminho encontrado.
+ * 
+ * @param graph 
+ * @param start_node_id 
+ * @return int 
+ */
+int greedySearch(struct Graph *graph, int start_node_id);
 
 #endif
