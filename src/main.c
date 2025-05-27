@@ -42,7 +42,7 @@ int applyEdges(FILE *input_stream, struct Graph *graph, int callback(struct Grap
             throwInputError();
         }
         dnode_id = strtol(input, &endptr, 10);
-    } while (input[0] != '\n' && input[0] != '\r' && input[0] != '#' && (callback(graph, onode_id, dnode_id) || throwInputError()));
+    } while (input[0] != '\n' && input[0] != '\r' && input[0] != '#' && (callback(graph, onode_id, dnode_id) && callback(graph, dnode_id, onode_id) || throwInputError()));
 }
 
 int main(int argc, char const *argv[])
@@ -52,7 +52,7 @@ int main(int argc, char const *argv[])
     char opt;
 
     struct Graph *graph = (struct Graph *)malloc(sizeof(struct Graph));
-    graph->nodes = NULL;
+    graph->first_node = NULL;
     graph->num_nodes = 0;
 
     if (filename)
@@ -61,6 +61,7 @@ int main(int argc, char const *argv[])
         applyNodes(input_stream, graph, addNode);
         applyEdges(input_stream, graph, addEdge);
         printf("\nGrafo iniciado com valores do arquivo.\n");
+        fclose(input_stream);
         input_stream = stdin;
     }
     else
@@ -108,7 +109,13 @@ int main(int argc, char const *argv[])
                 printf("Fim da remoção de arestas.\n");
                 break;
             case '5':
-                greedySearch(graph, 3);
+                printf("\nDigite o nó inicial para a busca gulosa: ");
+                if (fgets(input, sizeof(char) * BUFF_LINE_SIZE, input_stream) == NULL)
+                    throwInputError();
+                int start_value = strtol(input, &endptr, 10);
+                printf("Iniciando busca gulosa a partir do nó %d...\n", start_value);
+                greedySearch(graph, start_value);
+                printf("Busca gulosa concluída.\n");
                 break;
             case '0':
                 return 0;
@@ -121,6 +128,6 @@ int main(int argc, char const *argv[])
     }
     else
         throwInputError();
-
+    destroyGraph(graph);
     return 0;
 }

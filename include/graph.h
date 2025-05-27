@@ -1,16 +1,22 @@
 #ifndef GRAPH_H
 #define GRAPH_H
 
+struct Edge
+{
+    struct Node *destination;
+    struct Edge *next;
+};
+
 struct Node
 {
     int value;
-    struct Node *neighbors;
+    struct Edge *first_edge;
     struct Node *next;
 };
 
 struct Graph
 {
-    struct Node *nodes;
+    struct Node *first_node;
     int num_nodes;
 };
 
@@ -59,5 +65,12 @@ int removeEdge(struct Graph *graph, int onode_id, int dnode_id);
  * @return int 
  */
 int greedySearch(struct Graph *graph, int start_node_id);
+
+/**
+ * @brief Destrói o grafo e libera a memória alocada.
+ * 
+ * @param graph 
+ */
+void destroyGraph(struct Graph *graph);
 
 #endif
